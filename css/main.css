@@ -1,0 +1,47 @@
+.tradebox{
+    background: #eeeeee;
+}
+
+.sellButton{
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+}
+
+.buyButton{
+    background-color: #8B0000;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+}
+
+.tradeValueBig{
+    font-size:40px;
+}
+
+.tradeValueMedium{
+    font-size:24px;
+}
+
+.qtyString{
+    font-size:18px;
+}
+
+.dropdown-menu{
+    min-width:30px !important;
+    width:68px !important;
+}
+
+.largeTime{
+    font-size:24px;
+}
+
+.smallTime{
+    font-size:16px;
+}
+
+.container {
+    max-width: 1600px;
+    width: 100%;
+}

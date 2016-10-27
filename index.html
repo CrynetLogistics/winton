@@ -11,6 +11,136 @@
     <script src="js/tradeBoxes.js"></script>
     <script src="js/mainElement.js"></script>
 
+
+
+
+
+
+
+    <link rel="stylesheet" href="js/style.css">
+    <script type="text/javascript" src="js/paper-full.js"></script>
+    <script type="text/paperscript" canvas="canvas">
+        var width, height, center;
+        var points = 20;
+        var smooth = true;
+	var setted = false;
+        var path = new Path({
+            strokeColor: 'red',
+	    strokeWidth: 5,
+	    strokeCap:'round'
+        });
+        var pathHeight = 10;
+        var count = 150;
+
+
+    var sparks = new Path.Circle({
+        center: new Point(0, 0),
+        radius: 5,
+        fillColor: 'yellow'
+    });
+
+    var symbol = new SymbolDefinition(sparks);
+
+    // Place the instances of the symbol:
+    for (var i = 0; i < count; i++) {
+        // The center position is a random point in the view:
+	var center = {x:200, y:200};
+        var placed = symbol.place(center);
+        var scale = (i + 1) / count;
+        placed.scale(scale);
+        placed.data.vector = new Point({
+            angle: Math.random() * 360,
+            length : scale * Math.random() / 5
+        });
+    }
+
+    var vector = new Point({
+        angle:45,
+     	length:0
+    });
+
+
+	initializePath();
+
+        function initializePath() {
+	    center = {x:200, y:200};
+            width = 800;
+            height = 400;
+            path.segments = [];
+            for (var i = 0; i <= points; i++) {
+                var point = new Point(width / points * i, 200);
+                path.add(point);
+            }
+        }
+
+	function onFrame(event) {
+	    path.strokeColor.hue +=3;
+            for (var i = 1; i < points; i++) {
+                var yPos = Math.sin(event.time * 5 + i)*pathHeight + 200;
+                path.segments[i].point.y = yPos;
+            }
+            path.smooth();
+
+        // Run through the active layer's children list and change
+        // the position of the placed symbols:
+        for (var i = 0; i < count; i++) {
+	    var item = project.activeLayer.children[i];
+            var size = item.bounds.size;
+            var length = vector.length / 10 * size.width / 10;
+            item.position += (vector - item.data.vector)*30;
+            keepInView(item);
+        }
+        }
+
+        // Reposition the path whenever the window is resized:
+        function onResize(event) {
+            initializePath();
+       }
+
+	function onKeyDown(event){
+	    isPlay = true;
+	    if(!setted){
+	        pathHeight = Math.floor((Math.random() * 100) + 100);
+		setted = true;
+	    }
+	}
+
+	function onKeyUp(event){
+	    setted = false;
+	    pathHeight = 10;
+	    initializePath();
+	}
+
+
+    function keepInView(item) {
+        var position = item.position;
+        var itemBounds = item.bounds;
+        var bounds = view.bounds;
+        if (itemBounds.left > 800 ) {
+	    item.position = {x:200,y:200};
+        }
+
+        if (position.x < -itemBounds.width) {
+	    item.position = {x:200,y:200};
+        }
+
+        if (itemBounds.top > view.size.height) {
+	    item.position = {x:200, y:200};
+        }
+
+        if (position.y < -itemBounds.height) {
+	    item.position = {x:200, y:200};
+        }
+    }
+
+    </script>
+
+
+
+
+
+
+
     <title>Chat Rooooom</title>
 </head>
 <body>
@@ -28,10 +158,24 @@
             </tbody>
         </table>
 
-        <div id="chatDiv">
 
 
+
+
+
+
+
+        <div class="row">
+
+
+            <div class="col-sm-6" id="abcd">
+                <canvas id="canvas" resize></canvas>
+            </div>
+            <div id="chatDiv" class="col-sm-6">
+
+            </div>
         </div>
+
 
 
 
@@ -42,6 +186,58 @@
 
 
     </div>
+
+
+
+
+
+    <div id='pianoessence'>
+        <audio preload="auto" id="c" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/c.mp3"></audio>
+        <audio preload="auto" id="cis" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/cis.mp3"></audio>
+        <audio preload="auto" id="d" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/d.mp3"></audio>
+        <audio preload="auto" id="es" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/es.mp3"></audio>
+        <audio preload="auto" id="e" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/e.mp3"></audio>
+        <audio preload="auto" id="f" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/f.mp3"></audio>
+        <audio preload="auto" id="fis" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/fis.mp3"></audio>
+        <audio preload="auto" id="g" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/g.mp3"></audio>
+        <audio preload="auto" id="gis" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/gis.mp3"></audio>
+        <audio preload="auto" id="a" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/a.mp3"></audio>
+        <audio preload="auto" id="b" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/b.mp3"></audio>
+        <audio preload="auto" id="h" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/h.mp3"></audio>
+        <audio preload="auto" id="c1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/c1.mp3"></audio>
+        <audio preload="auto" id="cis1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/cis1.mp3"></audio>
+        <audio preload="auto" id="d1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/d1.mp3"></audio>
+        <audio preload="auto" id="es1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/es1.mp3"></audio>
+        <audio preload="auto" id="e1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/e1.mp3"></audio>
+        <audio preload="auto" id="f1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/f1.mp3"></audio>
+        <audio preload="auto" id="fis1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/fis1.mp3"></audio>
+        <audio preload="auto" id="g1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/g1.mp3"></audio>
+        <audio preload="auto" id="gis1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/gis1.mp3"></audio>
+        <audio preload="auto" id="a1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/a1.mp3"></audio>
+        <audio preload="auto" id="b1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/b1.mp3"></audio>
+        <audio preload="auto" id="h1" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/h1.mp3"></audio>
+        <audio preload="auto" id="c2" src="http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/c2.mp3"></audio>
+    </div>
+    <script type="text/javascript">
+
+
+
+        $(document).on('keypress', function(e) {
+            //alert(e.which);
+            if ((e.which >= 97 || e.which <= 122) && SOUND) {
+                var t = 'abcdefghijklmnopqrstuvwxyz';
+                var ch = t[e.which - 97];
+
+                playNote('0qwertyuiopasdfghjklzxcvbnm'.indexOf(ch));
+                trySocket('0qwertyuiopasdfghjklzxcvbnm'.indexOf(ch));
+            }
+        });
+
+
+    </script>
+
+
+
 
 </body>
 </html>

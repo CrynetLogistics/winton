@@ -60,7 +60,7 @@ $(document).ready(function(){
 
     wsw.onopen = function() {
         wsw.onmessage = function(e) {
-            playNote(e.data);
+            playNote(e.data.substring(1));
         }
     }
 
